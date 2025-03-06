@@ -1,0 +1,13 @@
+# python
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+build
+*.git
+*.vscode
+*.code-workspace
+*.log
+output/
+!.gitignore
