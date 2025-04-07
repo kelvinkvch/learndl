@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axolote</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css' rel='stylesheet' />
+
+
+</head>
+
+<body>
+    <!-- Loader -->
+<div id="loader" class="loader">
+    <div class="loader-inner"></div>
+</div>
+
+
+    <header>
+        <div class="content-fit">
+            <div class="logo">Earth Connect</div>
+        </div>
+    </header>
+    
+    <!-- Banner Section -->
+    <div class="section" id="banner">
+        <div class="content-fit">
+            <div class="title" data-before="EARTH CONNECT">EARTH CONNECT</div>
+            <img src="img/astronaut.png" class="astronaut-avatar" alt="Astronaut" />
+        </div>
+        <img src="img/jupiter.png" class="decorate" alt="" style="width: 70vw; bottom: 59px; right: -195px;">
+        <img src="img/mars.png" class="decorate" alt="" style="width: 80vw; bottom: 0; left: -235px;">
+        <img src="img/earth.png" class="decorate" alt="" style="height: 100vh; width: 80vw; bottom: 500px; right: 180px;">
+        <img src="img/neptune.png" class="decorate" alt="" style="width: 50vw; bottom: 398px; left: -288px;">
+    </div>
+    
+    <!-- Welcome Section -->
+    <div class="section" id="intro">
+        <div class="content-fit">
+            <div class="des">
+                <div class="title">WELCOME</div>
+                <p>Welcome to Earth Connect, where space exploration meets innovative technology. Our platform aims to bridge the gap between the Earth and the cosmos, offering users a unique experience in understanding and interacting with our planet’s most distant neighbors.</p>
+                <video autoplay loop muted playsinline class="background-video">
+                    <source src="videonasa.mp4" type="video/mp4">
+                </video>
+            </div>
+            <img src="img/satelite.png" class="decorate-satelite" alt="" style="width: 30vw; bottom: -85px; right: 695px; z-index: 101;">
+            <img src="img/satelite.png" class="decorate-satelite" alt="" style="width: 10vw; bottom: 18px; right: 105px; z-index: 101;">
+            <img src="img/satelite.png" class="decorate-satelite" alt="" style="width: 20vw; bottom: 395px; right: -25px; z-index: 101;">
+            <img src="img/satelite.png" class="decorate-satelite" alt="" style="width: 15vw; bottom: 500px; right: 1005px; z-index: 101;">
+            
+        </div>
+        <img src="img/triton.png" class="decorate" alt="" style="width: 10vw; bottom: 55px; right: -15px; z-index: 101;">
+    </div>
+    
+    <!-- What Is It Section -->
+    <div class="section" id="description">
+        <div class="content-fit">
+            <div class="des">
+                <div class="title">WHAT IS IT?</div>
+                <p>Earth Connect is an interactive platform designed to visualize data from space missions and environmental research. It provides real-time 3D visualizations of planetary data, enabling users to explore the universe from the comfort of their home. Whether you're a space enthusiast or a researcher, Earth Connect offers an immersive and educational experience like no other.</p>
+            </div>
+            <div id="map"></div>
+
+        </div>
+        <img src="img/mercury.png" class="decorate" alt="" style="width: 70vw; bottom: 445px; right: -105px; z-index: 101;">
+    </div>
+
+    <!-- Contact Section with Call-to-Action -->
+    <div class="section" id="contact">
+        <div class="content-fit">
+            <div class="des">
+                <div class="title">Why Join Us?</div>
+                <p>Join Earth Connect to explore the cosmos in a way never seen before. Our platform empowers you to interact with real data from NASA missions and get a firsthand look at the mysteries of the universe. Dive into the depths of space, collaborate with a community of like-minded explorers, and unlock new discoveries.</p>
+                
+                <!-- Stylized Button -->
+                <button class="start-button" onclick="window.location.href='resend/resend.html'">Start Now</button>
+
+
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Inicializar el mapa centrado en el mundo
+        var map = L.map('map').setView([20, 0], 2);
+      
+        // Cargar el mapa base de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+      
+        // Agregar una capa de clima (tormentas y precipitaciones) desde OpenWeatherMap API
+        var apiKey = '28518f657c6ad744e8c5d43c85ac50a0';  // Obtén tu API Key en https://openweathermap.org/
+      
+        // Capa de temperatura global
+        var temperatureLayer = L.tileLayer('https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=' + apiKey, {
+          attribution: 'Map data © OpenWeatherMap',
+          opacity: 0.7
+        }).addTo(map);
+      
+        // Capa de tormentas (clouds)
+        var cloudsLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + apiKey, {
+          attribution: 'Map data © OpenWeatherMap',
+          opacity: 0.7
+        }).addTo(map);
+      
+        // Capa de precipitación
+        var precipitationLayer = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + apiKey, {
+          attribution: 'Map data © OpenWeatherMap',
+          opacity: 0.7
+        });
+      
+        // Control de capas para alternar entre ellas
+        var baseMaps = {};
+        var overlayMaps = {
+          "Temperatura": temperatureLayer,
+          "Nubes": cloudsLayer,
+          "Precipitación": precipitationLayer
+        };
+      
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
+      </script>
+      <script>
+        // Ocultar el loader una vez que la página esté completamente cargada
+        window.onload = function() {
+            const loader = document.getElementById('loader');
+            loader.style.display = 'none'; // Oculta el loader
+        };
+    </script>
+    
+      
+</body>
+
+<script type="module" src="app.js"></script>
+</html>
