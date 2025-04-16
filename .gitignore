@@ -1,13 +1,1 @@
-# python
-*.py[cod]
-*.so
-*.egg
-*.egg-info
-dist
-build
-*.git
-*.vscode
-*.code-workspace
-*.log
-output/
-!.gitignore
+data/cifar10/cifar-10-python.tar.gz
